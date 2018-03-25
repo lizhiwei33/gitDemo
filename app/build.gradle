@@ -25,4 +25,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile files('libs/gson-2.2.4.jar')
+    compile files('libs/volley.jar')
+    compile files('libs/xUtils-2.6.10.jar')
 }
