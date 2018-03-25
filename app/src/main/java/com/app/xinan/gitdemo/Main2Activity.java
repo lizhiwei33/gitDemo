@@ -3,15 +3,11 @@ package com.app.xinan.gitdemo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+public class Main2Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        intiview();
-    }
-
-    private void intiview() {
+        setContentView(R.layout.activity_main2);
     }
 }
