@@ -9,13 +9,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.app.xinan.gitdemo.net.AppUrl;
+import com.app.xinan.gitdemo.entity.NongLi;
 import com.app.xinan.gitdemo.net.MyNet;
 import com.app.xinan.gitdemo.net.Observe;
-import com.app.xinan.gitdemo.net.ParseData;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -49,11 +46,21 @@ public class MainActivity extends AppCompatActivity {
         //获取用户输入框的值
         String city = editCity.getText().toString().trim();
         // String url= AppUrl.getUrl(city);//获取我们的接口url
-        MyNet.requestGet(this, AppUrl.getUrl(city), new Observe() {
+        //String url = "https://www.sojson.com/api/beian/baidu.com";
+        String url = "https://www.sojson.com/open/api/lunar/json.shtml";
+        MyNet.requestGet(this, url, new Observe() {
             @Override
             public void onSuccess(String response) {
                 Log.d(TAG, "onSuccess: "+response);
-                //解析基本数据类型（封装）
+                //用Gson解析数据
+                Gson gson = new Gson();//实例化gson对象
+                //Domain domain = gson.fromJson(response,Domain.class);//解析数据到实体类中
+               // Log.d(TAG, "onSuccess: "+domain.getNature());
+                NongLi nongli = gson.fromJson(response,NongLi.class);
+                Log.d(TAG, "onSuccess: "+nongli.getData().getSuit());
+
+
+               /* //解析基本数据类型（封装）
                 String date = ParseData.parseString(response,"date");
                 String message = ParseData.parseString(response,"msssage");
                 int status = ParseData.parseInt(response,"status");
@@ -64,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 String quality =  data.optString("quality");
                 //解析对象中数组对象
                 JSONArray  array = ParseData.parseObjectArray(data,"forecast");
-                String high =   array.optJSONObject(0).optString("high");
+                String high =   array.optJSONObject(0).optString("high");*/
 
                 /*JsonObject：格式：{
                     "person":[
