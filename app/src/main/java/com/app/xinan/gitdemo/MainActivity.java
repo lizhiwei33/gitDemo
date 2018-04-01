@@ -1,5 +1,6 @@
 package com.app.xinan.gitdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvShow;
     private EditText editCity;
 
+    private Button nextBt;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
     private void intiview() {
         tvShow = (TextView) findViewById(R.id.textShow);
         editCity = (EditText) findViewById(R.id.cityEdit);
+
+        nextBt = (Button) findViewById(R.id.nextBt);
+        nextBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,ImageShowActivity.class));
+            }
+        });
 
         bt = (Button) findViewById(R.id.bt);
         bt.setOnClickListener(new View.OnClickListener() {
