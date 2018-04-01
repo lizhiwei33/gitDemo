@@ -16,6 +16,13 @@
         android:textSize="@dimen/text_size_16sp"
         android:textColor="@color/red"
         />
+    <EditText
+        android:id="@+id/cityEdit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/margin_common"
+        android:background="@drawable/box_shape"
+        />
     <Button
         android:id="@+id/bt"
        style="@style/bt_style"

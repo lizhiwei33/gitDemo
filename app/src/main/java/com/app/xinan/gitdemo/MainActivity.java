@@ -1,22 +1,27 @@
 package com.app.xinan.gitdemo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.app.xinan.gitdemo.net.AppUrl;
 import com.app.xinan.gitdemo.net.MyNet;
 import com.app.xinan.gitdemo.net.Observe;
+import com.app.xinan.gitdemo.net.ParseData;
 
-import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private Button bt;
     private TextView tvShow;
+    private EditText editCity;
 
 
     @Override
@@ -29,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     /*初始化方法*/
     private void intiview() {
         tvShow = (TextView) findViewById(R.id.textShow);
+        editCity = (EditText) findViewById(R.id.cityEdit);
+
         bt = (Button) findViewById(R.id.bt);
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,13 +46,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getData() {
-
-        String url = "http://apis.baidu.com/apistore/dhc/getallrule?user=34ccd43b88617e1c8888856ea5d7f44c";
-        MyNet.requestGet(this, url, new Observe() {
+        //获取用户输入框的值
+        String city = editCity.getText().toString().trim();
+        // String url= AppUrl.getUrl(city);//获取我们的接口url
+        MyNet.requestGet(this, AppUrl.getUrl(city), new Observe() {
             @Override
             public void onSuccess(String response) {
+                Log.d(TAG, "onSuccess: "+response);
+                //解析基本数据类型（封装）
+                String date = ParseData.parseString(response,"date");
+                String message = ParseData.parseString(response,"msssage");
+                int status = ParseData.parseInt(response,"status");
+
+                //解析对象中的对象属性
+                JSONObject data = ParseData.parseObject(response,"data");
+                String shudu =   data.optString("shidu");
+                String quality =  data.optString("quality");
+                //解析对象中数组对象
+                JSONArray  array = ParseData.parseObjectArray(data,"forecast");
+                String high =   array.optJSONObject(0).optString("high");
+
+                /*JsonObject：格式：{
+                    "person":[
+                    {"name":"lizhiwei",
+                                "age":  18},{"name":"lizhiwei",
+                            "age":  18};{"name":"lizhiwei",
+                            "age":  18};{"name":"lizhiwei",
+                            "age":  18};
+                            ]
+                    {
+                }*/
+
                // 解析数据：
-                try {
+            /*    try {
                     JSONObject object = new JSONObject(response);
                     final   String errMsg = object.getString("errMsg");
                     runOnUiThread(new Runnable() {
@@ -57,12 +90,12 @@ public class MainActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
+                }*/
             }
 
             @Override
             public void onError(VolleyError ve) {
-
+                Log.d(TAG, "onError: "+ve.toString());
             }
         });
     }
